@@ -197,6 +197,10 @@ class UserActivity : AppCompatActivity() {
     // see [Result]
 
 
+    /**
+     * see [SubmitActionTransformer]
+     * see [CheckNameActionTransformer]
+     */
     private fun submitMultipleRequestsWithActionAndResult(
         submit: (Flow<SubmitAction>) -> Flow<SubmitResult>,
         checkName: (Flow<CheckNameAction>) -> Flow<CheckNameResult>,
@@ -228,20 +232,25 @@ class UserActivity : AppCompatActivity() {
             }
 
             val uiModels: Flow<SubmitUiModel> = transform(actions)
+                // incremental state updating with `scan`
                 .scan(initial = SubmitUiModel.Idle()) { state, result ->
-                    if (result == CheckNameResult.IN_PROGRESS || result == SubmitResult.IN_PROGRESS)
+                    if (result == CheckNameResult.InProgress() || result == SubmitResult.InProgress())
                         return@scan SubmitUiModel.InProgress()
-                    if (result == CheckNameResult.SUCCESS)
+                    if (result == CheckNameResult.Success())
                         return@scan SubmitUiModel.Idle()
-                    if (result == SubmitResult.SUCCESS)
+                    if (result == SubmitResult.Success())
                         return@scan SubmitUiModel.Success()
 
-                    //TODO handle ERROR
+                    if (result is CheckNameResult && result.error != null)
+                        return@scan SubmitUiModel.Error(result.error)
+                    if (result is SubmitResult && result.error != null)
+                        return@scan SubmitUiModel.Error(result.error)
+
                     throw IllegalArgumentException("Unknown result = $result")
                 }
 
             // render
-            uiModels.collect { model -> render(model) }
+            uiModels.collect { render(it) }
         }
     }
 }

@@ -13,9 +13,6 @@ fun SubmitUserNameTransformer(
 }
 
 
-
-
-
 //========================== multiple requests ==========================
 @Suppress("FunctionName")
 fun SubmitTransformer(
@@ -28,7 +25,7 @@ fun SubmitTransformer(
 }
 
 @Suppress("FunctionName")
-fun CheckNameTransformer( //TODO
+fun CheckNameTransformer(
     um: UserManager
 ): (Flow<CheckNameEvent>) -> Flow<SubmitUiModel> = { events ->
     events.mapLatest { ev -> um.checkName(ev.userName) }
@@ -50,7 +47,7 @@ fun SubmitActionTransformer(
 }
 
 @Suppress("FunctionName")
-fun CheckNameActionTransformer( //TODO
+fun CheckNameActionTransformer(
     um: UserManager
 ): (Flow<CheckNameAction>) -> Flow<CheckNameResult> = { actions ->
     actions.mapLatest { action -> um.checkName(action.userName) }

@@ -1,29 +1,42 @@
 package com.bcw.rsm
 
 
-open class Result(
-    open val inProgress: Boolean,
-    open val success: Boolean,
-    open val error: Throwable?,
-) {
-    @Suppress("FunctionName")
-    open fun InProgress(): Result = Result(inProgress = true, success = false, error = null)
-
-    @Suppress("FunctionName")
-    open fun Success(): Result = Result(inProgress = false, success = true, error = null)
-
-    @Suppress("FunctionName")
-    open fun Error(error: Throwable): Result = Result(inProgress = false, success = false, error = error)
-}
+abstract class Result
 
 data class CheckNameResult(
-    override val inProgress: Boolean,
-    override val success: Boolean,
-    override val error: Throwable?,
-) : Result(inProgress, success, error)
+    val inProgress: Boolean,
+    val success: Boolean,
+    val error: Throwable?,
+) : Result() {
+    companion object {
+        @Suppress("FunctionName")
+        fun InProgress(): CheckNameResult = CheckNameResult(inProgress = true, success = false, error = null)
+
+        @Suppress("FunctionName")
+        fun Success(): CheckNameResult =
+            CheckNameResult(inProgress = false, success = true, error = null)
+
+        @Suppress("FunctionName")
+        fun Error(error: Throwable): CheckNameResult =
+            CheckNameResult(inProgress = false, success = false, error = error)
+    }
+}
 
 data class SubmitResult(
-    override val inProgress: Boolean,
-    override val success: Boolean,
-    override val error: Throwable?,
-) : Result(inProgress, success, error)
+    val inProgress: Boolean,
+    val success: Boolean,
+    val error: Throwable?,
+) : Result() {
+    companion object {
+        @Suppress("FunctionName")
+        fun InProgress(): SubmitResult = SubmitResult(inProgress = true, success = false, error = null)
+
+        @Suppress("FunctionName")
+        fun Success(): SubmitResult =
+            SubmitResult(inProgress = false, success = true, error = null)
+
+        @Suppress("FunctionName")
+        fun Error(error: Throwable): SubmitResult =
+            SubmitResult(inProgress = false, success = false, error = error)
+    }
+}
