@@ -32,6 +32,8 @@ class UserActivity : AppCompatActivity() {
         um = UserManagerImpl()
 
         observeUser()
+
+        naiveClickToSubmitUserName()
     }
 
     private fun observeUser() {
@@ -74,7 +76,7 @@ class UserActivity : AppCompatActivity() {
                 .onEach { binding.progressBar.hide() }
                 .catch { } // ignore err handling
                 .collect {
-                    finish()
+
                 }
         }
     }
@@ -152,7 +154,7 @@ class UserActivity : AppCompatActivity() {
         progressBar.isVisible = model.inProgress
 
         if (!model.inProgress) {
-            if (model.success) finish() else toast("Failed to set user name")
+            if (model.success) {} else toast("Failed to set user name")
         }
     } // end render
 
