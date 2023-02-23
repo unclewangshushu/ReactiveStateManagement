@@ -1,6 +1,7 @@
 package com.bcw.rsm
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -18,6 +19,8 @@ import kotlinx.coroutines.launch
 
 class UserActivity : AppCompatActivity() {
 
+    private val tag = "UserActivity"
+
     private lateinit var um: UserManager
     private lateinit var binding: ActivityUserBinding
 
@@ -27,6 +30,8 @@ class UserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         um = UserManagerImpl()
+
+        observeUser()
     }
 
     private fun observeUser() {
@@ -37,6 +42,8 @@ class UserActivity : AppCompatActivity() {
                     .catch {
                     }
                     .collect {
+                        binding.user.text = it.toString()
+                        Log.i(tag, "user update: $it")
                     }
             }
         }
