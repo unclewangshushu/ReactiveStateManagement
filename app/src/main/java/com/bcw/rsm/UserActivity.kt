@@ -25,6 +25,8 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
+        um = UserManagerImpl()
     }
 
     private fun observeUser() {

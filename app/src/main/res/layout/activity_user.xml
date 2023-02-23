@@ -18,6 +18,8 @@
 
     <Button
         android:id="@+id/btn_submit"
+        android:text="Submit"
+        android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/edittext_name" />
